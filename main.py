@@ -5,30 +5,34 @@ class TicTacToeBoard:
         self.game_round = game_round
 
     @staticmethod
-    def check_win_conditions() -> bool:
-        print("Win condition analysis here.")
-        return True
+    def check_win_conditions(self) -> bool:
+        # the eight win conditions
+        print("The win condition is always false. Function is incomplete for testing.")
+        return False
 
     def increment_game_round(self):
         self.game_round += 1
         self.set_active_player()
 
     def place_mark(self, row: int, column: int):
-        grid_position_to_be_marked = self.board_grid[row - 1][column - 1]  # player's chosen grid position
+        grid_position_to_be_marked = self.board_grid[row - 1][column - 1]
         if grid_position_to_be_marked == '_':  # if spot hasn't been marked
             print("Grid selection successful, placing mark!")
-            grid_position_to_be_marked = self.active_player
+            self.board_grid[row - 1][column - 1] = self.active_player
+            self.print_grid()
         else:  # if spot has already been marked
             print("This position is already full, please try again.")
-            grid_position_to_be_marked = self.active_player
+            self.prompt_for_move()  # prompt the player to enter a new grid position
 
     @staticmethod
     def player_has_won(self) -> bool:
-        win_conditions_met = game_board.check_win_conditions()
+        win_conditions_met = game_board.check_win_conditions(game_board)
         if win_conditions_met:
             print("The winner of the game is " + self.active_player)
+            return True
         else:
             print("")
+            return False
 
     def print_grid(self):
         print(str(self.board_grid[0]))
@@ -37,11 +41,13 @@ class TicTacToeBoard:
 
     def print_grid_location(self, row: int, column: int):
         grid_value = self.board_grid[row - 1][column - 1]
-        print("The grid_value is " + str(grid_value))
+        print("The grid_value is of the selected positions is " + str(grid_value))
         return grid_value
 
     def prompt_for_move(self):
         print("Hello player " + str(self.active_player) + ", please make your move")
+        print("This is what the board looks like right now!")
+        self.print_grid()
         row = int(input("Please enter move row here >> "))
         column = int(input("Please enter move column here >> "))
         self.print_grid_location(row, column)
