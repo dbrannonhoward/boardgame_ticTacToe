@@ -1,3 +1,5 @@
+# odd/even modulus sanity check
+
 test_number = 0
 
 while test_number < 10:

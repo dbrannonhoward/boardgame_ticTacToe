@@ -1,3 +1,5 @@
+# some testing of list.count
+
 one_dim_list = ['a', 'b']
 two_dim_list = [one_dim_list, one_dim_list]
 tre_dim_list = [two_dim_list, two_dim_list]
