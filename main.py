@@ -3,11 +3,9 @@ import random
 
 class TicTacToeBoard:
     def __init__(self, board_grid: list, active_player: str, game_round: int):
-        print("Begin: TicTacToeBoard.__init__")
         self.board_grid = board_grid
         self.active_player = active_player
         self.game_round = game_round
-        print("End : TicTacToeBoard.__init__")
 
     @staticmethod
     def check_win_conditions(self) -> bool:
