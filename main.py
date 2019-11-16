@@ -19,6 +19,8 @@ class TicTacToeBoard:
                 or self.board_grid[2][2] == self.board_grid[1][1] == self.board_grid[0][0] == self.active_player:
             return True
         else:
+            spaces_remaining = self.board_grid.count("_")
+            print("There are " + str(spaces_remaining) + " spaces remaining on the board!")
             return False
 
     def increment_game_round(self):
@@ -37,7 +39,7 @@ class TicTacToeBoard:
 
     @staticmethod
     def player_has_won(self) -> bool:
-        win_conditions_met = game_board.check_win_conditions(game_board)
+        win_conditions_met = game_board.check_win_conditions(self)
         if win_conditions_met:
             print("The winner of the game is " + self.active_player)
             return True
@@ -51,7 +53,6 @@ class TicTacToeBoard:
         print(str(self.board_grid[2]))
 
     def print_grid_location(self, row: int, column: int):
-        print("Row is type " + str(type(row)) + " and column is type " + str(type(column)))
         grid_value = self.board_grid[row - 1][column - 1]
         print("The grid_value is of the selected positions is " + str(grid_value))
         return grid_value
@@ -86,8 +87,7 @@ class TicTacToeBoard:
 
 
 # initialize the TicTacToeBoard object as game_board with initial conditions
-print("Initial conditions")
-init_board_grid = [['_', '_', '_'], ['_', '_', '_'], ['_', '_', '_']]  # empty starting grid
+init_board_grid = [["_", "_", "_"], ["_", "_", "_"], ["_", "_", "_"]]  # empty starting grid
 init_active_player = 'X'  # X will always go first
 init_game_round = 1  # the game round starts at 1
 game_board = TicTacToeBoard(init_board_grid, init_active_player, init_game_round)
