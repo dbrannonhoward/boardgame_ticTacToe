@@ -19,6 +19,7 @@ class TicTacToeBoard:
                 or self.board_grid[2][2] == self.board_grid[1][1] == self.board_grid[0][0] == self.active_player:
             return True
         else:
+            # todo list.count isn't working
             spaces_remaining = self.board_grid.count("_")
             print("There are " + str(spaces_remaining) + " spaces remaining on the board!")
             return False
