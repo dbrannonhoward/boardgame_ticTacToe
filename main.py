@@ -21,28 +21,28 @@ class TicTacToeBoard:
         else:
             # todo list.count isn't working
             spaces_remaining = self.board_grid.count("_")
-            print("There are " + str(spaces_remaining) + " spaces remaining on the board!")
+            print("Debug : There are " + str(spaces_remaining) + " spaces remaining on the board!")
             return False
 
     def increment_game_round(self):
         self.game_round += 1
         self.set_active_player()
 
-    def place_mark(self, row: int, column: int):
-        grid_position_to_be_marked = self.board_grid[row - 1][column - 1]
+    def place_mark(self, row: int, col: int):
+        grid_position_to_be_marked = self.board_grid[row - 1][col - 1]
         if grid_position_to_be_marked == '_':  # if spot hasn't been marked
-            print("Grid selection successful, placing mark!")
-            self.board_grid[row - 1][column - 1] = self.active_player
+            print("Game : Grid selection successful, placing mark!")
+            self.board_grid[row - 1][col - 1] = self.active_player
             self.print_grid()
         else:  # if spot has already been marked
-            print("This position is already full, please try again.")
+            print("Game : This position is already full, please try again.")
             self.prompt_for_move()  # prompt the player to enter a new grid position
 
     @staticmethod
     def player_has_won(self) -> bool:
         win_conditions_met = game_board.check_win_conditions(self)
         if win_conditions_met:
-            print("The winner of the game is " + self.active_player)
+            print("Game : The winner of the game is " + self.active_player)
             return True
         else:
             print("")
@@ -54,37 +54,41 @@ class TicTacToeBoard:
         print(str(self.board_grid[2]))
 
     def print_grid_location(self, row: int, column: int):
-        grid_value = self.board_grid[row - 1][column - 1]
-        print("The grid_value is of the selected positions is " + str(grid_value))
-        return grid_value
+        if row < 1 or row > 3 or column < 1 or column > 3:
+            print("Debug : Row and column out of range")
+        else:
+            grid_value = self.board_grid[row - 1][column - 1]
+            print("Debug : The grid_value is of the selected positions is " + str(grid_value))
+            return grid_value
 
     def prompt_for_move(self):
-        print("Hello player " + str(self.active_player) + ", please make your move")
-        print("This is what the board looks like right now!")
+        print("Game : Hello player " + str(self.active_player) + ", please make your move")
+        print("Game : This is what the board looks like right now!")
         self.print_grid()
-        row = int(input("Please enter move row here >> "))
-        # row = self.verify_row_column_input(row)
-        column = int(input("Please enter move column here >> "))
-        # column = self.verify_row_column_input(column)
-        self.print_grid_location(row, column)
-        print("The selected row is " + str(row) + " and the selected column is " + str(column))
-        self.place_mark(row, column)
+        row = int(input("Game : Please enter move row here >> "))
+        col = int(input("Game : Please enter move column here >> "))
+        row_and_col = [None, None]
+        row_and_col = self.verify_row_and_column_input(row, col)
+        row = row_and_col[0]
+        col = row_and_col[1]
+        self.print_grid_location(row, col)
+        print("Game : The selected row is " + str(row) +
+              " and the selected column is " + str(col))
+        self.place_mark(row, col)
 
     def set_active_player(self):  # called by self.increment_game_round()
         if self.game_round % 2 == 0:
             self.active_player = 'X'  # this player goes first (and when game_round is even)
-            print("The active player is " + str(self.active_player) + "!")
+            print("Game : The active player is " + str(self.active_player) + "!")
         else:
             self.active_player = 'O'  # this player goes when game_round is odd
-            print("The active player is " + str(self.active_player) + "!")
+            print("Game : The active player is " + str(self.active_player) + "!")
 
-    @staticmethod
-    def verify_row_column_input(row_or_col):
-        coerced_row_col = row_or_col
-        if row_or_col < 1 or row_or_col > 3:
-            coerced_row_col = 4 * int(random.random())
-            print("Your input value was invalid, fine.. I'll do it for you.")
-            return int(coerced_row_col)
+    def verify_row_and_column_input(self, row: int, col: int) -> list:
+        print("Debug : Begin verify_row_and_column_input")
+        row_and_col = [row, col]
+        return row_and_col
+        print("Debug : End verify_row_and_column_input")
 
 
 # initialize the TicTacToeBoard object as game_board with initial conditions
