@@ -9,7 +9,6 @@ class TicTacToeBoard:
 
     @staticmethod
     def check_win_conditions(self) -> bool:
-        print("There are " + str(self.board_grid.count('_')) + " empty spaces.")
         if self.board_grid[0][0] == self.board_grid[0][1] == self.board_grid[0][2] == self.active_player \
                 or self.board_grid[1][0] == self.board_grid[1][1] == self.board_grid[1][2] == self.active_player \
                 or self.board_grid[2][0] == self.board_grid[2][1] == self.board_grid[2][2] == self.active_player \
@@ -20,16 +19,10 @@ class TicTacToeBoard:
                 or self.board_grid[2][2] == self.board_grid[1][1] == self.board_grid[0][0] == self.active_player:
             return True
         elif 1 == 5:
-            # write a condition to detect CAT
             return True
         else:
             # Neither the win or the CAT conditions have been met, continue program
             return False
-
-    @staticmethod
-    def exit_program(self):
-        print("The program will now exit!")
-        # todo program exit code
 
     def increment_game_round(self):
         self.game_round += 1
