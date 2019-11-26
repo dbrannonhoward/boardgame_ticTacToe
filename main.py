@@ -67,7 +67,6 @@ class TicTacToeBoard:
         self.print_grid()
         row = int(input("Game : Please enter move row here >> "))
         col = int(input("Game : Please enter move column here >> "))
-        row_and_col = [None, None]
         row_and_col = self.verify_row_and_column_input(row, col)
         row = row_and_col[0]
         col = row_and_col[1]
@@ -87,6 +86,10 @@ class TicTacToeBoard:
     def verify_row_and_column_input(self, row: int, col: int) -> list:
         print("Debug : Begin verify_row_and_column_input")
         row_and_col = [row, col]
+        if row_and_col[0] < 1 or row_and_col[0] > 3:
+            row_and_col[0] = 2
+        if row_and_col[1] < 1 or row_and_col[1] > 3:
+            row_and_col[1] = 2
         return row_and_col
         print("Debug : End verify_row_and_column_input")
 
