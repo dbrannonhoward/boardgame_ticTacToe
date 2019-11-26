@@ -9,6 +9,7 @@ class TicTacToeBoard:
 
     @staticmethod
     def check_win_conditions(self) -> bool:
+        print("There are " + str(self.board_grid.count('_')) + " empty spaces.")
         if self.board_grid[0][0] == self.board_grid[0][1] == self.board_grid[0][2] == self.active_player \
                 or self.board_grid[1][0] == self.board_grid[1][1] == self.board_grid[1][2] == self.active_player \
                 or self.board_grid[2][0] == self.board_grid[2][1] == self.board_grid[2][2] == self.active_player \
@@ -18,11 +19,17 @@ class TicTacToeBoard:
                 or self.board_grid[0][0] == self.board_grid[1][1] == self.board_grid[2][2] == self.active_player \
                 or self.board_grid[2][2] == self.board_grid[1][1] == self.board_grid[0][0] == self.active_player:
             return True
+        elif 1 == 5:
+            # write a condition to detect CAT
+            return True
         else:
-            # todo list.count isn't working
-            spaces_remaining = self.board_grid.count("_")
-            print("Debug : There are " + str(spaces_remaining) + " spaces remaining on the board!")
+            # Neither the win or the CAT conditions have been met, continue program
             return False
+
+    @staticmethod
+    def exit_program(self):
+        print("The program will now exit!")
+        # todo program exit code
 
     def increment_game_round(self):
         self.game_round += 1
@@ -55,7 +62,7 @@ class TicTacToeBoard:
 
     def print_grid_location(self, row: int, column: int):
         if row < 1 or row > 3 or column < 1 or column > 3:
-            print("Debug : Row and column out of range")
+            print("Debug : Row or column selection is out of range")
         else:
             grid_value = self.board_grid[row - 1][column - 1]
             print("Debug : The grid_value is of the selected positions is " + str(grid_value))
@@ -65,9 +72,11 @@ class TicTacToeBoard:
         print("Game : Hello player " + str(self.active_player) + ", please make your move")
         print("Game : This is what the board looks like right now!")
         self.print_grid()
-        row = int(input("Game : Please enter move row here >> "))
-        col = int(input("Game : Please enter move column here >> "))
-        row_and_col = self.verify_row_and_column_input(row, col)
+        row = input("Game : Please enter move row here >> ")
+        col = input("Game : Please enter move column here >> ")
+        row_is_numeric = row.isnumeric()
+        col_is_numeric = col.isnumeric()
+        row_and_col = self.verify_row_and_column_input(self, row, col, row_is_numeric, col_is_numeric)
         row = row_and_col[0]
         col = row_and_col[1]
         self.print_grid_location(row, col)
@@ -83,9 +92,17 @@ class TicTacToeBoard:
             self.active_player = 'O'  # this player goes when game_round is odd
             print("Game : The active player is " + str(self.active_player) + "!")
 
-    def verify_row_and_column_input(self, row: int, col: int) -> list:
+    @staticmethod
+    def verify_row_and_column_input(self, row: int, col: int, row_is_numeric: bool, col_is_numeric: bool) -> list:
         print("Debug : Begin verify_row_and_column_input")
         row_and_col = [row, col]
+        if not row_is_numeric or not col_is_numeric:
+            print("Please use numeric input only.")
+            row_and_col[0] = 2
+            row_and_col[1] = 2
+        else:
+            row_and_col[0] = int(row)
+            row_and_col[1] = int(col)
         if row_and_col[0] < 1 or row_and_col[0] > 3:
             row_and_col[0] = 2
         if row_and_col[1] < 1 or row_and_col[1] > 3:
