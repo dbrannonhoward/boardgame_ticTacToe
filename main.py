@@ -1,24 +1,29 @@
 import random
+import string
+import time
 
 
 class TicTacToeBoard:
-    def __init__(self, board_grid: list, active_player: str, game_round: int):
-        self.board_grid = board_grid
-        self.active_player = active_player
-        self.game_round = game_round
+    def __init__(self):
+        self.board_grid = ['1', '2', '3', '4', '5', '6', '7', '8', '9']  # empty starting grid
+        self.active_player_mark = self.pick_random_starting_player_from_X_and_O()
+        self.game_round = 0
+        self.possible_moves = ''.join(string.digits).lstrip('0')  # string of digits 1-9
+        self.past_moves = ''
 
     @staticmethod
     def check_win_conditions(self) -> bool:
-        if self.board_grid[0][0] == self.board_grid[0][1] == self.board_grid[0][2] == self.active_player \
-                or self.board_grid[1][0] == self.board_grid[1][1] == self.board_grid[1][2] == self.active_player \
-                or self.board_grid[2][0] == self.board_grid[2][1] == self.board_grid[2][2] == self.active_player \
-                or self.board_grid[0][0] == self.board_grid[1][0] == self.board_grid[2][0] == self.active_player \
-                or self.board_grid[0][1] == self.board_grid[1][1] == self.board_grid[2][1] == self.active_player \
-                or self.board_grid[0][2] == self.board_grid[1][2] == self.board_grid[2][2] == self.active_player \
-                or self.board_grid[0][0] == self.board_grid[1][1] == self.board_grid[2][2] == self.active_player \
-                or self.board_grid[2][2] == self.board_grid[1][1] == self.board_grid[0][0] == self.active_player:
+        # 1-3 are horizontal win conditions, 4-6 are vertical, 7 and 8 are diagonals
+        if self.board_grid[1] == self.board_grid[2] == self.board_grid[3] == self.active_player_mark \
+            or self.board_grid[4] == self.board_grid[5] == self.board_grid[6] == self.active_player_mark \
+            or self.board_grid[7] == self.board_grid[8] == self.board_grid[9] == self.active_player_mark \
+            or self.board_grid[1] == self.board_grid[4] == self.board_grid[7] == self.active_player_mark \
+            or self.board_grid[2] == self.board_grid[5] == self.board_grid[8] == self.active_player_mark \
+            or self.board_grid[3] == self.board_grid[6] == self.board_grid[9] == self.active_player_mark \
+            or self.board_grid[1] == self.board_grid[5] == self.board_grid[9] == self.active_player_mark \
+                or self.board_grid[3] == self.board_grid[5] == self.board_grid[7] == self.active_player_mark:
             return True
-        elif 1 == 5:
+        elif 1 == 5:  # todo cat conditions
             return True
         else:
             # Neither the win or the CAT conditions have been met, continue program
@@ -28,21 +33,22 @@ class TicTacToeBoard:
         self.game_round += 1
         self.set_active_player()
 
-    def place_mark(self, row: int, col: int):
-        grid_position_to_be_marked = self.board_grid[row - 1][col - 1]
-        if grid_position_to_be_marked == '_':  # if spot hasn't been marked
+    def pick_random_starting_player_from_X_and_O(self):
+        return ''.join(random.choice(['X', 'O']))
+
+    def place_mark(self, board_position):
+        grid_position_to_be_marked = board_position
+        if grid_position_to_be_marked in self.possible_moves:
             print("Game : Grid selection successful, placing mark!")
-            self.board_grid[row - 1][col - 1] = self.active_player
             self.print_grid()
         else:  # if spot has already been marked
             print("Game : This position is already full, please try again.")
             self.prompt_for_move()  # prompt the player to enter a new grid position
 
-    @staticmethod
     def player_has_won(self) -> bool:
-        win_conditions_met = game_board.check_win_conditions(self)
+        win_conditions_met = self.game_board.check_win_conditions(self)
         if win_conditions_met:
-            print("Game : The winner of the game is " + self.active_player)
+            print("Game : The winner of the game is " + self.active_player_mark)
             return True
         else:
             print("")
@@ -62,7 +68,7 @@ class TicTacToeBoard:
             return grid_value
 
     def prompt_for_move(self):
-        print("Game : Hello player " + str(self.active_player) + ", please make your move")
+        print("Game : Hello player " + str(self.active_player_mark) + ", please make your move")
         print("Game : This is what the board looks like right now!")
         self.print_grid()
         row = input("Game : Please enter move row here >> ")
@@ -79,11 +85,11 @@ class TicTacToeBoard:
 
     def set_active_player(self):  # called by self.increment_game_round()
         if self.game_round % 2 == 0:
-            self.active_player = 'X'  # this player goes first (and when game_round is even)
-            print("Game : The active player is " + str(self.active_player) + "!")
+            self.active_player_mark = 'X'  # this player goes first (and when game_round is even)
+            print("Game : The active player is " + str(self.active_player_mark) + "!")
         else:
-            self.active_player = 'O'  # this player goes when game_round is odd
-            print("Game : The active player is " + str(self.active_player) + "!")
+            self.active_player_mark = 'O'  # this player goes when game_round is odd
+            print("Game : The active player is " + str(self.active_player_mark) + "!")
 
     @staticmethod
     def verify_row_and_column_input(self, row: int, col: int, row_is_numeric: bool, col_is_numeric: bool) -> list:
@@ -103,12 +109,10 @@ class TicTacToeBoard:
         return row_and_col
         print("Debug : End verify_row_and_column_input")
 
+    def main(self):
+        print(self.possible_moves)
 
-# initialize the TicTacToeBoard object as game_board with initial conditions
-init_board_grid = [["_", "_", "_"], ["_", "_", "_"], ["_", "_", "_"]]  # empty starting grid
-init_active_player = 'X'  # X will always go first
-init_game_round = 1  # the game round starts at 1
-game_board = TicTacToeBoard(init_board_grid, init_active_player, init_game_round)
-while not game_board.player_has_won(game_board):
-    game_board.increment_game_round()  # increment game_round
-    game_board.prompt_for_move()  # allow the active_player to place a mark 'X' or 'O'
+
+if __name__ == '__main__':
+    ttt = TicTacToeBoard()
+    ttt.main()
